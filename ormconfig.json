@@ -1,0 +1,6 @@
+{
+    "type": "sqlite",
+    "database": "out/test.db",
+    "synchronize": true,
+    "entities": ["out/**/*.entity.js", "out/**/entity.js"]
+}

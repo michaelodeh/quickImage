@@ -1,19 +1,15 @@
 import { DataSource } from "typeorm";
-require("dotenv").config();
 
-const databasePath = process.env.DATABASE_PATH || "database";
-
-const AppDataSource = new DataSource({
+const SQLiteConn = new DataSource({
   type: "sqlite",
-  database: `${databasePath}/database.db`,
+  database: "out/database.db",
+  synchronize: true,
   entities: ["out/**/*.entity.js", "out/**/entity.js"],
-  migrations: ["migration/*.js"],
-  synchronize: false,
-  logging: true,
 });
+
+const AppDataSource = SQLiteConn;
 
 AppDataSource.initialize()
   .then(() => console.log("Database Initialized"))
   .catch((e) => console.log("Database Not Initialised " + e));
-
 export default AppDataSource;

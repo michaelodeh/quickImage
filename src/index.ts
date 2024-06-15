@@ -5,10 +5,14 @@ import * as path from "path";
 const app: Express = express();
 import * as crypto from "crypto";
 import AppDataSource from "./ data-source";
-const port: number = Number(process.env.PORT || 3000);
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+require("dotenv").config();
+
+const port: number = Number(process.env.PORT || 3000);
+const host: string = process.env.SERVER_HOST || "localhost";
+
+app.use(express.json({ limit: "10000mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10000mb" }));
 
 app.use(express.static(path.join("public")));
 
@@ -32,7 +36,7 @@ app.get("/", (req, res) => {
 
 app.post("/add", async (req, res) => {
   const data = req.body;
-
+  console.log(data.phone);
   if (data.image) {
     const name =
       crypto.createHash("md5").update(Math.random().toString()).digest("hex") +
@@ -68,10 +72,10 @@ app.get("/get/:phone", async (req, res) => {
 
   res.json({
     status: "success",
-    data: data,
+    data: data.reverse(),
   });
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port http://localhost:${port}`);
+app.listen(port, host, () => {
+  console.log(`Server is running on port http://${host}:${port}`);
 });

@@ -2,7 +2,7 @@ import { DataSource } from "typeorm";
 
 const SQLiteConn = new DataSource({
   type: "sqlite",
-  database: "db/database.db",
+  database: "out/database.db",
   synchronize: true,
   entities: ["out/**/*.entity.js", "out/**/entity.js"],
 });
